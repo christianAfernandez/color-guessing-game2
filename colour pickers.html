@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Picker</title>
+    <style>
+        button:hover {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #f4511e;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 28px;
+            padding: 20px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+        button:after {
+            content: '»';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+        button:hover:after{
+            opacity: 1;
+            right: 0;
+        }
+
+        body {
+           background-color : target_index;
+        }
+
+    </style>
+</head>
+<script>
+    "use strict";
+    //Array
+    var colors = ["black", "blue", "brown", "green", "grey", "orange", "purple", "red", "white", "yellow"];
+    var colors = colors.sort();
+    var guesses = 1;
+    var colors_message = colors.join(", ");
+    //User INPUT
+    var guess_input_text = "";
+    var target_index;
+    var finished = false;
+    var guess_input;
+    //Randomly choose a number 0-9
+    function shuffleArray() {
+        var random_number = Math.random() * (colors.length - 1);
+        var random_number_integer = Math.floor(random_number);
+        target_index = random_number_integer;
+        var answer = String(colors[random_number_integer]);
+        //Alert correct answer for testing purposes
+        //alert("The correct answer is: " + answer);
+
+        while (!finished) {
+            guess_input_text = prompt("I am thinking of one of these colors:\n\n" +
+                    colors_message + "\n\n What color am I thinking of?").toLowerCase();
+            guess_input = colors.indexOf(guess_input_text);
+            finished = check_guess();
+        }
+        function check_guess() {
+            if (guess_input == -1) {
+                alert("Sorry, I don't recognize your color. \n\n Please try again.");
+                return false;
+            }
+            if (guess_input > target_index) {
+                alert("Sorry, your guess is not correct! \n\n Hint: Your color is alphabetically higher than mine.\n\n Please try again.");
+                guesses += 1;
+                return false;
+            }
+            if (guess_input < target_index) {
+                alert("Sorry, your guess is not correct!\n\n Hint: Your color is alphabetically lower than mine.\n\n Please try again.");
+                guesses += 1;
+                return false;
+            }
+            if (guess_input == target_index) {
+                alert("Congratulations! You have guessed the color!\n\n It took you " + guesses + " guesses to finish the game!\n\n You can see the color in the background.");
+                document.body.style.backgroundColor = guess_input_text;
+
+                return true;
+            }
+        }
+    }
+
+</script>
+<h1><center> Click the button below to play the game </center></h1>
+<body><center> <button onclick="shuffleArray()"> click me</button> </center>
+
+</body>
+</html>
